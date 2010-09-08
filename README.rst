@@ -17,3 +17,13 @@ Actuators
 Meta-modules
 ------------
  - House (Something like a "group" of devices)
+
+
+API Example
+-----------
+
+	lamp = dev.actuator("A2")
+	lamp.dim(10)
+	lamp.off()
+	house = dev.house("B")
+	house.lightsOff()
