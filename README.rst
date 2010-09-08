@@ -12,6 +12,7 @@ Drivers
 Actuators
 ---------
  - Switch (On/Off state)
+ - Generic (Used to talk to any X10 device)
 
 Meta-modules
 ------------
