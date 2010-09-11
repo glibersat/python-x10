@@ -4,10 +4,23 @@ A python module to control X10 appliances
 
 Current state: alpha and incomplete
 
-Authors::
-- Guillaume Libersat <glibersat@sigill.org>
+:Authors: Guillaume Libersat <glibersat@sigill.org>
+
+:Contributors:
+  Axel Haustant <noirbizarre@gmail.com>
+
+:License: GPL v3 (see COPYING)
 
 Contributions are welcomed !
+
+------------
+Requirements
+------------
+
+python-x10 requires:
+
+- Python 2.5
+- PyUSB (http://pyusb.berlios.de/)
 
 --------
 Features
@@ -21,7 +34,8 @@ Drivers
 Actuators
 =========
 
-- Switch (On/Off state)
+- Switchable (On/Off state)
+- Dimmable (Variable state)
 - Generic (Used to talk to any X10 device)
 
 Meta-modules
@@ -35,8 +49,18 @@ API Example
 
 ::
 
+ # Retrieve USB CM15 Device
+ scanner = USBScanner()
+ dev = scanner.findDevices()
+ dev.open()
+
+ # Use a single module
  lamp = dev.actuator("A2")
  lamp.dim(10)
  lamp.off()
+ 
+ # Use a group
  house = dev.house("B")
  house.lightsOff()
+
+More samples in tests.
