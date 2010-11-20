@@ -1,9 +1,12 @@
 import time
 import struct
+import logging
 
 from x10.exceptions import WriteError, ReadError
 from x10.devices.actuators import GenericX10Actuator
 from x10.devices.house import X10House
+
+logger = logging.getLogger(__name__)
 
 class X10Controller(object):
     vendorId = 0x0000
@@ -47,13 +50,14 @@ class X10Controller(object):
         Read an amount of bytes from the controller
         """
         res = self._handle.bulkRead(self.read_endpoint, bytes)
+        logger.info( "Read", ["0x%02x" % i for i in res])
         return res
 
     def write(self, aSequence):
         """
         Write a sequence of bytes to the interface
         """
-        print "writing", ["0x%02x" % i for i in aSequence]
+        logger.info("writing", ["0x%02x" % i for i in aSequence])
 
         packets = struct.pack("%dB" % len(aSequence), *aSequence)
         wrote = self._handle.bulkWrite(self.write_endpoint,
