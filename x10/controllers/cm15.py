@@ -1,5 +1,3 @@
-from usb import Device
-
 from x10.utils import encodeX10Address, encodeX10HouseCode
 from x10.protocol import functions
 
@@ -43,8 +41,6 @@ class CM15(X10Controller):
             cmd.append((amount*2))
 
         self.write(cmd)
-
-        #self.ack()
 
 
 
