@@ -20,7 +20,7 @@ Requirements
 python-x10 requires:
 
 - Python 2.5
-- PyUSB (http://pyusb.berlios.de/)
+- PyUSB 0.x (http://pyusb.berlios.de/)
 
 --------
 Features
