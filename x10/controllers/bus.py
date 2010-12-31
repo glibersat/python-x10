@@ -20,11 +20,3 @@ class USBScanner(object):
                         return X10Class(dev)
 
         return None
-
-
-
-
-
-
-
-

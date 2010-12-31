@@ -1,7 +1,6 @@
 import logging
 
 from x10.controllers.bus import USBScanner
-from x10.protocol import functions
 
 logger = logging.getLogger()
 hdlr = logging.StreamHandler() # Console

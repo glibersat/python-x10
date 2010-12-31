@@ -2,7 +2,7 @@ import time
 import struct
 import logging
 
-from x10.exceptions import WriteError, ReadError
+from x10.exceptions import WriteError
 from x10.devices.actuators import GenericX10Actuator
 from x10.devices.house import X10House
 
@@ -92,6 +92,3 @@ class X10Controller(object):
         Given a house code, return a House object
         """
         return X10House(x10HouseCode, self)
-
-
-

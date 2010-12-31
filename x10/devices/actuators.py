@@ -56,9 +56,3 @@ class DimmableX10Actuator(AbstractX10Actuator):
 class GenericX10Actuator(SwitchableX10Actuator,
                          DimmableX10Actuator):
     pass
-                         
-
-
-
-
-
