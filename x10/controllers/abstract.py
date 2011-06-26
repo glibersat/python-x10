@@ -56,14 +56,14 @@ class X10Controller(object):
         Read an amount of bytes from the controller
         """
         res = self._handle.bulkRead(self.read_endpoint, bytes)
-        logger.info( "Read", ["0x%02x" % i for i in res])
+        logger.debug( "Read", ["0x%02x" % i for i in res])
         return res
 
     def write(self, aSequence):
         """
         Write a sequence of bytes to the interface
         """
-        logger.info("writing", ["0x%02x" % i for i in aSequence])
+        logger.debug("writing", ["0x%02x" % i for i in aSequence])
 
         packets = struct.pack("%dB" % len(aSequence), *aSequence)
         wrote = self._handle.bulkWrite(self.write_endpoint,
