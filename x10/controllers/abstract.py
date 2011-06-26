@@ -19,6 +19,12 @@ class X10Controller(object):
         self._device = aDevice
         self._handle = None
 
+    def ack(self):
+        """
+        Get if the device did well respond or not
+        """
+        raise NotImplementedError()
+
     def open(self):
         """
         Open the device and set it up
@@ -64,7 +70,7 @@ class X10Controller(object):
                                        packets)
 
         if wrote != len(aSequence):
-            raise WriteError("Unable to write to CM15")
+            raise WriteError("Unable to write to the controller")
 
         # Wait for the controller
         time.sleep(1*(len(aSequence)))
