@@ -4,6 +4,9 @@ class WriteError(Exception):
 class ReadError(Exception):
     pass
 
+class NoDeviceFoundError(Exception):
+    pass
+
 
 
 

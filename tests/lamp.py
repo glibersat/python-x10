@@ -10,7 +10,14 @@ logger.addHandler(hdlr)
 logger.setLevel(logging.DEBUG)
 
 b = USBScanner()
-dev = b.findDevices()
+devices = list(b.findDevices())
+
+if len(devices) == 0:
+    print "No device found"
+    exit()
+
+dev = devices[0]
+
 dev.open()
 
 livinglamp = dev.actuator("A1")
