@@ -21,6 +21,7 @@ python-x10 requires:
 
 - Python 2.5
 - PyUSB 0.x (http://pyusb.berlios.de/)
+- pySerial (http://pyserial.sourceforge.net/)
 
 --------
 Features
@@ -30,6 +31,7 @@ Drivers
 =======
 
 - CM15
+- CM17a (Need testing!)
 
 Actuators
 =========
