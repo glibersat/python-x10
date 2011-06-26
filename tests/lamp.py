@@ -1,5 +1,14 @@
+import logging
+
 from x10.controllers.bus import USBScanner
 from x10.protocol import functions
+
+logger = logging.getLogger()
+hdlr = logging.StreamHandler() # Console
+formatter = logging.Formatter('%(module)s - %(asctime)s %(levelname)s %(message)s')
+hdlr.setFormatter(formatter)
+logger.addHandler(hdlr) 
+logger.setLevel(logging.DEBUG)
 
 b = USBScanner()
 dev = b.findDevices()
@@ -12,7 +21,7 @@ roomlamp = dev.actuator("A2")
 
 roomlamp.on()
 
-livinglamp.off()
+#livinglamp.on()
 
 #livinglamp.adjust(100)
 
@@ -23,7 +32,7 @@ livinglamp.off()
 #house.lightsOff()
 #house.lightsOn()
 
-#dev.close()
+dev.close()
 
 
 
