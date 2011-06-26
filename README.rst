@@ -66,3 +66,12 @@ API Example
  house.lightsOff()
 
 More samples in tests.
+
+------------------------------------
+Ideas and drivers that may be merged
+------------------------------------
+
+- CM19a driver: http://www.cuddon.net/search/label/CM19a
+- Another CM19a driver:
+  http://m.lemays.org/projects/x10-cm19a-linux-driver
+- PyXAL X10netc client/server
