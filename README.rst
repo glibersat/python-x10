@@ -7,8 +7,7 @@ Current state: working but incomplete API
 :Authors: Guillaume Libersat (@glibersat)
 
 :Contributors:
-  Axel Haustant (@noirbizarre)
-  Riccardo Ferrazzo (@rferrazz)
+  Axel Haustant (@noirbizarre), Riccardo Ferrazzo (@rferrazz)
 
 :License: GPL v3 (see COPYING)
 
