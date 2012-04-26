@@ -107,14 +107,14 @@ class SerialX10Controller(X10Controller):
         self._handle.setRTS(False)
 
     def write(self, aSequence):
-        print (">", hex(aSequence))
+        logger.debug("Writing %s", hex(aSequence))
         self._handle.write(chr(aSequence))
         
     def read(self):
         res = self._handle.read()
         if res == "":
             return res
-        print("<", hex(ord(res)))
+        logger.debug("Read %s", hex(ord(res)))
         return ord(res)
 
     def close(self):
