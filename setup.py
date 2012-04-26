@@ -8,6 +8,5 @@ setup(
     description = 'A python module to control X10 appliances',
     license = 'GNU GPL',
     
-    packages = ['x10', 'x10/controllers', 'x10/devices'],
-    **kwargs
+    packages = ['x10', 'x10/controllers', 'x10/devices']
 )
