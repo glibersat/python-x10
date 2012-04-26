@@ -2,7 +2,7 @@ import time
 import struct
 import logging
 
-import serial
+import serial, binascii
 
 from x10.devices.actuators import GenericX10Actuator
 from x10.devices.house import X10House
@@ -84,9 +84,13 @@ class SerialX10Controller(X10Controller):
     """
     DELAY_BIT = 0.001 # Seconds between bits
     DELAY_FIN = 1     # Seconds to wait before disabling after transmit
+    
+    def __init__(self, aDevice, baudrate=9600):
+        X10Controller.__init__(self, aDevice)
+        self._baudrate = baudrate
 
     def open(self):
-        self._handle = serial.Serial(self._device)
+        self._handle = serial.Serial(self._device, baudrate=self._baudrate, timeout=1)
 
     def _set_standby(self):
         """
@@ -103,31 +107,15 @@ class SerialX10Controller(X10Controller):
         self._handle.setRTS(False)
 
     def write(self, aSequence):
-        logger.debug("Writing %s", ["0x%02x" % i for i in aSequence])
-
-        byte_count = len(hex(aSequence)) - 2
-
-        mask = 1 << (byte_count - 1)
+        logger.debug("Writing %s", hex(aSequence))
+        self._handle.write(chr(aSequence))
         
-        self._set_standby()
-        time.sleep(self.DELAY_BIT)    
-        
-        for i in range(0, byte_count):
-            bit = aSequence & mask
-            if bit == mask:
-                self._handle.setDTR(False)
-            elif bit == 0:
-                self._handle.setRTS(False)
-        
-            time.sleep(self.DELAY_BIT)
-            self._set_standby()
-            
-            # Then stay in standby before next bit
-            time.sleep(self.DELAY_BIT)
-            
-            # Move to next bit in sequence
-            aSequence = aSequence << 1
-
+    def read(self):
+        res = self._handle.read()
+        if res == "":
+            return res
+        logger.debug("Read %s", hex(ord(res)))
+        return ord(res)
 
     def close(self):
         self._set_off()
