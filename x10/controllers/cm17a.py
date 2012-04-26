@@ -19,6 +19,8 @@ from .abstract import SerialX10Controller
 
 from ..utils import encodeX10HouseCode, encodeX10UnitCode, encodeX10Address
 
+from x10.protocol import functions
+
 class CM17a(SerialX10Controller):
     """
     Firecracker spec requires at least 0.5ms between bits
@@ -80,6 +82,9 @@ class CM17a(SerialX10Controller):
     # -----------------------------------------------------------
     DATA_HDR = 0xD5AA # Data header
     DATA_FTR = 0xAD # Data footer
+    
+    def ack(self):
+        return True
 
     def do(self, function, x10addr=None, amount=None):
         cmd = 0x00000000
@@ -92,17 +97,17 @@ class CM17a(SerialX10Controller):
 
         # Add in the unit code. Ignore if bright or dim command,
         # which just applies to last unit.
-        if function not in (function.BRIGHT, function.DIM):
+        if function not in (functions.BRIGHT, functions.DIM):
             cmd = cmd | encodeX10UnitCode(unit, self)
         
         # Add the action code
-        if function == function.ON:
+        if function == functions.ON:
             cmd = cmd | self.CMD_ON
-        elif function == function.OFF:
+        elif function == functions.OFF:
             cmd = cmd | self.CMD_OFF
-        elif function == function.BRT:
+        elif function == functions.BRIGHT:
             cmd = cmd | self.CMD_BRT
-        elif function == function.DIM:
+        elif function == functions.DIM:
             cmd = cmd | self.CMD_DIM
 
         # Write everything to the device
