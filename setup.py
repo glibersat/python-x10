@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name = 'Python-X10',
-    version = '0.1',
+    version = '0.2',
 
     author = 'Guillaume Libersat',
     description = 'A python module to control X10 appliances',

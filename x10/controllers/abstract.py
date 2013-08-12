@@ -3,7 +3,6 @@ import struct
 import logging
 
 import serial
-import usb.util
 
 from x10.devices.actuators import GenericX10Actuator
 from x10.devices.house import X10House
@@ -24,6 +23,27 @@ class X10Controller(object):
         Execute a function on the controller. E.g. Turn on a light.
         """
         raise NotImplementedError()
+
+    def _decodeX10Command(self, command):
+        return command
+        
+    def readCommand(self):
+        """
+        Read a X10 command on the device and interpret it
+        """
+        command = self.read()
+        if len(command) < 1:
+            raise "nothing to read"
+        elif command[0] == 0x5a:
+            command.pop(0)
+            logger.debug("Got command of %d byte(s)", command[0])
+            return self._decodeX10Command(command)
+        elif command[0] == 0xa5:
+            logger.debug("empty carrier...")            
+        else:
+            raise "device not ready"
+        
+        return command
 
     def open(self):
         """
@@ -112,6 +132,7 @@ class SerialX10Controller(X10Controller):
         self._handle.write(chr(aSequence))
         
     def read(self):
+        # FIXME This should allow bytes= param and read this amount
         res = self._handle.read()
         if res == "":
             return res
@@ -147,7 +168,7 @@ class UsbX10Controller(X10Controller):
         # seq = (0x5A, 0x02, 0x00, 0x6E)
 
     def read(self, bytes=100):
-        res = self._device.read(self.read_endpoint, bytes)
+        res = self._device.read(self.read_endpoint, size=bytes, timeout=0)
         logger.debug( "Read %s", ["0x%02x" % i for i in res])
         return res
 
