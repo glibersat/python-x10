@@ -9,7 +9,7 @@ Current state: working but incomplete API
 :Contributors:
   Axel Haustant (@noirbizarre), Riccardo Ferrazzo (@rferrazz)
 
-:License: GPL v3 (see COPYING)
+:License: GNU GPL v3 (see COPYING)
 
 Contributions are welcomed !
 
@@ -19,8 +19,8 @@ Requirements
 
 python-x10 requires:
 
-- Python 2.5
-- PyUSB 0.x (http://pyusb.berlios.de/)
+- Python >=2.5
+- PyUSB >=1.0.0 (http://pyusb.berlios.de/)
 - pySerial (http://pyserial.sourceforge.net/)
 
 --------
