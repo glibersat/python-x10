@@ -2,7 +2,8 @@ import time
 import struct
 import logging
 
-import serial, binascii
+import serial
+import usb.util
 
 from x10.devices.actuators import GenericX10Actuator
 from x10.devices.house import X10House
@@ -132,16 +133,13 @@ class UsbX10Controller(X10Controller):
     read_endpoint = 0x00
 
     def open(self):
-        self._handle = self._device.open()
-
-        config = self._device.configurations[0]        
-        self._handle.setConfiguration(config)
-
-        itf = config.interfaces[0][0]        
-        self._handle.claimInterface(itf)
+        self._device.set_configuration()
 
     def close(self):
-        self._handle.releaseInterface()
+        """
+        We have nothing to do here, should be handled by pyusb
+        policy
+        """
         # clk = (0x9b, 20, 100, 2 >> 1, 1, 1, 0x60, 0x00)
         
         # seqclk = struct.pack("BBBBBBBB", *clk)
@@ -149,7 +147,7 @@ class UsbX10Controller(X10Controller):
         # seq = (0x5A, 0x02, 0x00, 0x6E)
 
     def read(self, bytes=100):
-        res = self._handle.bulkRead(self.read_endpoint, bytes)
+        res = self._device.read(self.read_endpoint, bytes)
         logger.debug( "Read %s", ["0x%02x" % i for i in res])
         return res
 
@@ -157,8 +155,8 @@ class UsbX10Controller(X10Controller):
         logger.debug("Writing %s", ["0x%02x" % i for i in aSequence])
 
         packets = struct.pack("%dB" % len(aSequence), *aSequence)
-        wrote = self._handle.bulkWrite(self.write_endpoint,
-                                       packets)
+        wrote = self._device.write(self.write_endpoint,
+                                   packets)
 
         if wrote != len(aSequence):
             raise WriteError("Unable to write to the controller")

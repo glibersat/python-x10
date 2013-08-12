@@ -1,6 +1,7 @@
 import logging
 
 import usb
+import usb.core
 
 from ..exceptions import NoDeviceFoundError
 from .cm15 import CM15
@@ -15,14 +16,12 @@ class USBScanner(object):
         For a given X10 Controller class, scan the USB busses trying to find it.
         raises NoDeviceFoundError if none is found.
         """
-        busses = usb.busses()
+        device = usb.core.find(idVendor=anUsbX10ControllerClass.vendorId,
+                               idProduct=anUsbX10ControllerClass.productId)
 
-        for bus in busses:
-            for dev in bus.devices:
-                if dev.idVendor == anUsbX10ControllerClass.vendorId and \
-                        dev.idProduct == anUsbX10ControllerClass.productId:
-                    logger.info("Found device %s" % anUsbX10ControllerClass)
-                    return anUsbX10ControllerClass(dev)
+        if device:
+            logger.info("Found device %s" % anUsbX10ControllerClass)
+            return anUsbX10ControllerClass(device)
 
         raise NoDeviceFoundError()
         
